@@ -595,6 +595,6 @@ kpgmobs:register_mob("kpgmobs:horse2", {
 })
 kpgmobs:register_spawn("kpgmobs:horse2", {"default:dirt_with_grass"}, 20, 8, 10000, 1, 31000)
 
-if minetest.setting_get("log_mods") then
-	minetest.log("action", "kpgmobs loaded")
+if core.settings:get_bool("log_mods", false) then
+	core.log("action", "horse loaded")
 end
