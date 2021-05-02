@@ -22,6 +22,9 @@ local function is_ground(pos)
 end
 
 local function get_sign(i)
+	-- FIXME:
+	if i == nil then i = 0 end
+
 	if i == 0 then
 		return 0
 	else
@@ -55,20 +58,20 @@ end
 
 
 function horse:on_activate(staticdata, dtime_s)
-	self.object:set_armor_groups({immortal=1})
+	--self.object:set_armor_groups({immortal=1})
 	if staticdata then
 		self.v = tonumber(staticdata)
 	end
 end
 
 function horse:get_staticdata()
-	return tostring(v)
+	return tostring(self.v)
 end
 
 function horse:on_punch(puncher, time_from_last_punch, tool_capabilities, direction)
 	self.object:remove()
 	if puncher and puncher:is_player() then
-		puncher:get_inventory():add_item("main", "kpgmobs:horseh1")
+		puncher:get_inventory():add_item("main", "creatures:horse")
 	end
 end
 
@@ -145,6 +148,7 @@ function horse:on_step(dtime)
 	end
 end
 
+--[[
 --horse white
 
 local horsepeg = {
@@ -159,6 +163,7 @@ local horsepeg = {
 	driver = nil,
 	v = 0,
 }
+]]
 
 
 local function is_ground(pos)
@@ -184,6 +189,7 @@ local function get_v(v)
 	return math.sqrt(v.x^2+v.z^2)
 end
 
+--[[
 function horsepeg:on_rightclick(clicker)
 	if not clicker or not clicker:is_player() then
 		return
@@ -302,7 +308,7 @@ end
 	driver = nil,
 	v = 0,
 }
-
+]]
 
 local function is_ground(pos)
 	local nn = minetest.get_node(pos).name
@@ -327,6 +333,7 @@ local function get_v(v)
 	return math.sqrt(v.x^2+v.z^2)
 end
 
+--[[
 function horseara:on_rightclick(clicker)
 	if not clicker or not clicker:is_player() then
 		return
@@ -433,48 +440,118 @@ function horseara:on_step(dtime)
 		end
 	end
 end
+]]
 
 
-kpgmobs:register_mob("kpgmobs:horse", {
-	type = "animal",
-	hp_max = 5,
-	collisionbox = {-0.4, -0.01, -0.4, 0.4, 1, 0.4},
-	textures = {"mobs_horse.png"},
-	visual = "mesh",
-	mesh = "mobs_horse.x",
-	makes_footstep_sound = true,
-	walk_velocity = 1,
-	armor = 200,
-	drops = {
-		{name = "kpgmobs:meat_raw",
-		chance = 1,
-		min = 2,
-		max = 3,},
+local likes = {"default:apple"}
+if core.global_exists("farming") then
+	table.insert("farming:wheat")
+end
+
+local drops = {}
+if core.global_exists("mobs") then
+	table.insert({"mobs:meat_raw", {min=2, max=3}, 1.0})
+end
+
+
+-- FIXME:
+-- - mounted horse movement is incorrect
+creatures.register_mob({
+	name = "creatures:horse",
+	stats = {
+		hp = 5,
+		hostile = false,
+		lifetime = 300,
+		can_jump = 1.1,
 	},
-	drawtype = "front",
-	water_damage = 1,
-	lava_damage = 5,
-	light_damage = 0,
-	animation = {
-		speed_normal = 15,
-		stand_start = 25,
-		stand_end = 75,
-		walk_start = 75,
-		walk_end = 100,
+	modes = {
+		idle = {
+			chance = 0.3,
+		},
+		--attack = {},
+		follow = {
+			chance = 0.7,
+			moving_speed = 1,
+			items = likes,
+		},
+		--eat = {},
 	},
-	follow = "farming:wheat",
-	view_range = 5,
-
+	model = {
+		mesh = "mobs_horse.x",
+		textures = {"mobs_horse.png"},
+		collisionbox = {-0.4, -0.01, -0.4, 0.4, 1, 0.4},
+		rotation = -90.0,
+		--backface_culling = ,
+		animations = {
+			idle = {
+				start = 25,
+				stop = 75,
+				speed = 15,
+			},
+			--attack = {},
+			follow = {
+				start = 75,
+				stop = 100,
+				speed = 15,
+			},
+			--eat = {},
+		},
+	},
+	--[[
+	sounds = {
+	},
+	]]
+	drops = drops,
+	--[[
+	combat = {
+	},
+	]]
+	spawning = {
+		abm_nodes = {
+			spawn_on = {"default:dirt_with_grass"},
+			neighbors = {},
+		},
+		abm_interval = 60,
+		abm_chance = 9000,
+		max_number = 2,
+		--number = 1,
+		--time_range = {},
+		light = {min=8, max=20},
+		height_limit = {min=-50, max=31000},
+		spawn_egg = {
+			description = "Horse",
+			texture = "mobs_horse.png",
+		},
+		--spawner = {},
+	},
+	--[[
 	on_rightclick = function(self, clicker)
 		if clicker:is_player() and clicker:get_inventory() then
-			clicker:get_inventory():add_item("main", "kpgmobs:horseh1")
+			clicker:get_inventory():add_item("main", "creatures:horse_spawn_egg")
 			self.object:remove()
 		end
 	end,
-
+	]]
+	on_rightclick = function(self, clicker)
+		horse.on_rightclick(self, clicker)
+	end,
+	--[[
+	on_punch = function(self, puncher)
+		horse.on_punch(self, puncher)
+	end,
+	on_step = function(self, dtime)
+		horse.on_step(self, dtime)
+	end,
+	on_activate = function(self, staticdata)
+		horse:on_activate(staticdata)
+	end,
+	get_staticdata = function(self)
+		return horse.get_staticdata(self)
+	end,
+	]]
 })
-kpgmobs:register_spawn("kpgmobs:horse", {"default:dirt_with_grass"}, 20, 8, 9000, 1, 31000)
 
+--[[
 minetest.register_craftitem("kpgmobs:horseh1", {
 	description = "Horse",
 	inventory_image = "mobs_horse_inventar.png",
@@ -594,6 +671,7 @@ kpgmobs:register_mob("kpgmobs:horse2", {
 	end,
 })
 kpgmobs:register_spawn("kpgmobs:horse2", {"default:dirt_with_grass"}, 20, 8, 10000, 1, 31000)
+]]
 
 if core.settings:get_bool("log_mods", false) then
 	core.log("action", "horse loaded")
