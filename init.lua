@@ -3,8 +3,6 @@
 
 --HORSE go go goooo :)
 local horse = {
-    
-	
 	physical = true,
 	collisionbox = {-0.4, -0.01, -0.4, 0.4, 1, 0.4},
 	visual = "mesh",
@@ -12,7 +10,7 @@ local horse = {
 	visual_size = {x=1,y=1},
 	mesh = "mobs_horseh1.x",
 	textures = {"mobs_horseh1.png"},
-		
+
 	driver = nil,
 	v = 0,
 }
@@ -76,7 +74,6 @@ end
 
 
 function horse:on_step(dtime)
-
 	self.v = get_v(self.object:getvelocity())*get_sign(self.v)
 	if self.driver then
 		local ctrl = self.driver:get_player_control()
@@ -113,7 +110,7 @@ function horse:on_step(dtime)
 	if math.abs(self.v) > 4.5 then
 		self.v = 4.5*get_sign(self.v)
 	end
-	
+
 	local p = self.object:getpos()
 	p.y = p.y-0.5
 	if not is_ground(p) then
@@ -151,8 +148,6 @@ end
 --horse white
 
 local horsepeg = {
-    
-	
 	physical = true,
 	collisionbox = {-0.4, -0.01, -0.4, 0.4, 1, 0.4},
 	visual = "mesh",
@@ -160,7 +155,7 @@ local horsepeg = {
 	visual_size = {x=1,y=1},
 	mesh = "mobs_horseh1.x",
 	textures = {"mobs_horsepegh1.png"},
-		
+
 	driver = nil,
 	v = 0,
 }
@@ -224,7 +219,6 @@ end
 
 
 function horsepeg:on_step(dtime)
-
 	self.v = get_v(self.object:getvelocity())*get_sign(self.v)
 	if self.driver then
 		local ctrl = self.driver:get_player_control()
@@ -261,7 +255,7 @@ function horsepeg:on_step(dtime)
 	if math.abs(self.v) > 4.5 then
 		self.v = 4.5*get_sign(self.v)
 	end
-	
+
 	local p = self.object:getpos()
 	p.y = p.y-0.5
 	if not is_ground(p) then
@@ -298,8 +292,6 @@ end
 
 --horse arabik
   local horseara = {
-    
-	
 	physical = true,
 	collisionbox = {-0.4, -0.01, -0.4, 0.4, 1, 0.4},
 	visual = "mesh",
@@ -307,7 +299,6 @@ end
 	visual_size = {x=1,y=1},
 	mesh = "mobs_horseh1.x",
 	textures = {"mobs_horsearah1.png"},
-		
 	driver = nil,
 	v = 0,
 }
@@ -371,7 +362,6 @@ end
 
 
 function horseara:on_step(dtime)
-
 	self.v = get_v(self.object:getvelocity())*get_sign(self.v)
 	if self.driver then
 		local ctrl = self.driver:get_player_control()
@@ -397,7 +387,7 @@ function horseara:on_step(dtime)
 				self.object:setvelocity(get_velocity(self.v, self.object:getyaw(), 0))
 		end
 		end
-		
+
 	end
 	local s = get_sign(self.v)
 	self.v = self.v - 0.02*s
@@ -409,7 +399,7 @@ function horseara:on_step(dtime)
 	if math.abs(self.v) > 4.5 then
 		self.v = 4.5*get_sign(self.v)
 	end
-	
+
 	local p = self.object:getpos()
 	p.y = p.y-0.5
 	if not is_ground(p) then
@@ -474,21 +464,21 @@ kpgmobs:register_mob("kpgmobs:horse", {
 	},
 	follow = "farming:wheat",
 	view_range = 5,
-	
+
 	on_rightclick = function(self, clicker)
 		if clicker:is_player() and clicker:get_inventory() then
 			clicker:get_inventory():add_item("main", "kpgmobs:horseh1")
 			self.object:remove()
 		end
 	end,
-	
+
 })
 kpgmobs:register_spawn("kpgmobs:horse", {"default:dirt_with_grass"}, 20, 8, 9000, 1, 31000)
 
 minetest.register_craftitem("kpgmobs:horseh1", {
 	description = "Horse",
 	inventory_image = "mobs_horse_inventar.png",
-	
+
 	on_place = function(itemstack, placer, pointed_thing)
 		if pointed_thing.above then
 			minetest.env:add_entity(pointed_thing.above, "kpgmobs:horseh1")
@@ -502,7 +492,7 @@ minetest.register_entity("kpgmobs:horseh1", horse)
 minetest.register_craftitem("kpgmobs:horsepegh1", {
 	description = "HorseWhite",
 	inventory_image = "mobs_horse_inventar.png",
-	
+
 	on_place = function(itemstack, placer, pointed_thing)
 		if pointed_thing.above then
 			minetest.env:add_entity(pointed_thing.above, "kpgmobs:horsepegh1")
@@ -516,7 +506,7 @@ minetest.register_entity("kpgmobs:horsepegh1", horsepeg)
 minetest.register_craftitem("kpgmobs:horsearah1", {
 	description = "HorseBlack",
 	inventory_image = "mobs_horse_inventar.png",
-	
+
 	on_place = function(itemstack, placer, pointed_thing)
 		if pointed_thing.above then
 			minetest.env:add_entity(pointed_thing.above, "kpgmobs:horsearah1")
@@ -556,7 +546,7 @@ kpgmobs:register_mob("kpgmobs:horse3", {
 	},
 	follow = "farming:wheat",
 	view_range = 5,
-	
+
 	on_rightclick = function(self, clicker)
 		if clicker:is_player() and clicker:get_inventory() then
 			clicker:get_inventory():add_item("main", "kpgmobs:horsearah1")
@@ -595,7 +585,7 @@ kpgmobs:register_mob("kpgmobs:horse2", {
 	},
 	follow = "farming:wheat",
 	view_range = 5,
-	
+
 	on_rightclick = function(self, clicker)
 		if clicker:is_player() and clicker:get_inventory() then
 			clicker:get_inventory():add_item("main", "kpgmobs:horsepegh1")
