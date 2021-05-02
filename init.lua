@@ -426,8 +426,8 @@ end
 
 -- FIXME:
 -- - mounted horse movement is incorrect
-creatures.register_mob({
-	name = "creatures:horse_brown",
+local base_def = {
+	--name = "creatures:horse_brown",
 	stats = {
 		hp = 5,
 		hostile = false,
@@ -448,7 +448,7 @@ creatures.register_mob({
 	},
 	model = {
 		mesh = "mobs_horse.x",
-		textures = {"mobs_horse.png"},
+		--textures = {"mobs_horse.png"},
 		collisionbox = {-0.4, -0.01, -0.4, 0.4, 1, 0.4},
 		rotation = -90.0,
 		--backface_culling = ,
@@ -490,8 +490,8 @@ creatures.register_mob({
 		height_limit = {min=-50, max=31000},
 		-- FIXME: set owner when egg used
 		spawn_egg = {
-			description = "Horse",
-			texture = "mobs_horse_inv.png",
+			--description = "Brown Horse",
+			--texture = "mobs_horse_inv.png",
 		},
 		--spawner = {},
 	},
@@ -512,11 +512,7 @@ creatures.register_mob({
 		return horse.get_staticdata(self)
 	end,
 	]]
-})
-
-if not core.global_exists("mobs") then
-	creatures.register_alias("mob_horse:horse", "creatures:horse_brown")
-end
+}
 
 --[[
 minetest.register_craftitem("kpgmobs:horseh1", {
@@ -639,6 +635,41 @@ kpgmobs:register_mob("kpgmobs:horse2", {
 })
 kpgmobs:register_spawn("kpgmobs:horse2", {"default:dirt_with_grass"}, 20, 8, 10000, 1, 31000)
 ]]
+
+local horses = {
+	{
+		name = "creatures:horse_brown",
+		description = "Brown Horse",
+		textures = {"mobs_horse.png"},
+		inventory_image = "mobs_horse_brown_inv.png",
+	},
+	{
+		name = "creatures:horse_white",
+		description = "White Horse",
+		textures = {"mobs_horsepeg.png"},
+		inventory_image = "mobs_horse_white_inv.png",
+	},
+	{
+		name = "creatures:horse_black",
+		description = "Black Horse",
+		textures = {"mobs_horseara.png"},
+		inventory_image = "mobs_horse_black_inv.png",
+	},
+}
+
+for _, horse in ipairs(horses) do
+	local def = table.copy(base_def)
+	def.name = horse.name
+	def.model.textures = horse.textures
+	def.spawning.spawn_egg.description = horse.description
+	def.spawning.spawn_egg.texture = horse.inventory_image
+
+	creatures.register_mob(def)
+end
+
+if not core.global_exists("mobs") then
+	creatures.register_alias("mob_horse:horse", "creatures:horse_brown")
+end
 
 if core.settings:get_bool("log_mods", false) then
 	core.log("action", "horse loaded")
