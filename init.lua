@@ -518,9 +518,10 @@ creatures.register_mob({
 		--time_range = {},
 		light = {min=8, max=20},
 		height_limit = {min=-50, max=31000},
+		-- FIXME: set owner when egg used
 		spawn_egg = {
 			description = "Horse",
-			texture = "mobs_horse.png",
+			texture = "mobs_horse_inv.png",
 		},
 		--spawner = {},
 	},
