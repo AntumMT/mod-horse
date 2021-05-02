@@ -46,9 +46,11 @@ function horse:on_rightclick(clicker)
 	if not clicker or not clicker:is_player() then
 		return
 	end
+
 	if self.driver and clicker == self.driver then
 		self.driver = nil
 		clicker:set_detach()
+	-- FIXME: only owner shoud be able to ride
 	elseif not self.driver then
 		self.driver = clicker
 		clicker:set_attach(self.object, "", {x=0,y=5,z=0}, {x=0,y=0,z=0})
@@ -68,11 +70,21 @@ function horse:get_staticdata()
 	return tostring(self.v)
 end
 
-function horse:on_punch(puncher, time_from_last_punch, tool_capabilities, direction)
-	self.object:remove()
+function horse:on_punch(puncher, time_from_last_punch, tool_capabilities, dir, damage)
 	if puncher and puncher:is_player() then
-		puncher:get_inventory():add_item("main", "creatures:horse_brown_spawn_egg")
+		local wielded = puncher:get_wielded_item()
+		if wielded then
+			-- FIXME:
+			-- - owner attribute must be empty
+			-- - needs to be tamed first
+			if wielded:get_name() == "mobs:lasso" then
+				self.object:remove()
+				puncher:get_inventory():add_item("main", self.name .. "_spawn_egg")
+			end
+		end
 	end
+
+	return false
 end
 
 
@@ -525,21 +537,13 @@ creatures.register_mob({
 		},
 		--spawner = {},
 	},
-	--[[
-	on_rightclick = function(self, clicker)
-		if clicker:is_player() and clicker:get_inventory() then
-			clicker:get_inventory():add_item("main", "creatures:horse_spawn_egg")
-			self.object:remove()
-		end
-	end,
-	]]
 	on_rightclick = function(self, clicker)
 		horse.on_rightclick(self, clicker)
 	end,
-	--[[
-	on_punch = function(self, puncher)
-		horse.on_punch(self, puncher)
+	on_punch = function(self, puncher, time_from_last_punch, tool_capabilities, dir, damage)
+		return horse.on_punch(self, puncher, time_from_last_punch, tool_capabilities, dir, damage)
 	end,
+	--[[
 	on_step = function(self, dtime)
 		horse.on_step(self, dtime)
 	end,
