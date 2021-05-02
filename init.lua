@@ -552,6 +552,10 @@ creatures.register_mob({
 	]]
 })
 
+if not core.global_exists("mobs") then
+	creatures.register_alias("mob_horse:horse", "creatures:horse_brown")
+end
+
 --[[
 minetest.register_craftitem("kpgmobs:horseh1", {
 	description = "Horse",
