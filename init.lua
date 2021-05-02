@@ -445,12 +445,12 @@ end
 
 local likes = {"default:apple"}
 if core.global_exists("farming") then
-	table.insert("farming:wheat")
+	table.insert(likes, "farming:wheat")
 end
 
 local drops = {}
 if core.global_exists("mobs") then
-	table.insert({"mobs:meat_raw", {min=2, max=3}, 1.0})
+	table.insert(drops, {"mobs:meat_raw", {min=2, max=3}, 1.0})
 end
 
 
