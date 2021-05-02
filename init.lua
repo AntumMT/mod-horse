@@ -49,7 +49,7 @@ function horse:on_rightclick(clicker)
 	elseif not self.driver then
 		self.driver = clicker
 		clicker:set_attach(self.object, "", {x=0,y=5,z=0}, {x=0,y=0,z=0})
-		self.object:setyaw(clicker:get_look_yaw())
+		self.object:set_yaw(clicker:get_look_horizontal())
 	end
 end
 
@@ -74,7 +74,7 @@ end
 
 
 function horse:on_step(dtime)
-	self.v = get_v(self.object:getvelocity())*get_sign(self.v)
+	self.v = get_v(self.object:get_velocity())*get_sign(self.v)
 	if self.driver then
 		local ctrl = self.driver:get_player_control()
 		if ctrl.up then
@@ -84,26 +84,26 @@ function horse:on_step(dtime)
 			self.v = self.v-0.1
 		end
 		if ctrl.left then
-			self.object:setyaw(self.object:getyaw()+math.pi/120+dtime*math.pi/120)
+			self.object:set_yaw(self.object:get_yaw()+math.pi/120+dtime*math.pi/120)
 		end
 		if ctrl.right then
-			self.object:setyaw(self.object:getyaw()-math.pi/120-dtime*math.pi/120)
+			self.object:set_yaw(self.object:get_yaw()-math.pi/120-dtime*math.pi/120)
 		end
 		if ctrl.jump then
-		local p = self.object:getpos()
+		local p = self.object:get_pos()
 		p.y = p.y-0.5
 		if is_ground(p) then
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 				pos.y = math.floor(pos.y)+4
-				self.object:setpos(pos)
-				self.object:setvelocity(get_velocity(self.v, self.object:getyaw(), 0))
+				self.object:set_pos(pos)
+				self.object:set_velocity(get_velocity(self.v, self.object:get_yaw(), 0))
 		end
 		end
 	end
 	local s = get_sign(self.v)
 	self.v = self.v - 0.02*s
 	if s ~= get_sign(self.v) then
-		self.object:setvelocity({x=0, y=0, z=0})
+		self.object:set_velocity({x=0, y=0, z=0})
 		self.v = 0
 		return
 	end
@@ -111,35 +111,35 @@ function horse:on_step(dtime)
 		self.v = 4.5*get_sign(self.v)
 	end
 
-	local p = self.object:getpos()
+	local p = self.object:get_pos()
 	p.y = p.y-0.5
 	if not is_ground(p) then
 		if minetest.registered_nodes[minetest.get_node(p).name].walkable then
 			self.v = 0
 		end
-		self.object:setacceleration({x=0, y=-10, z=0})
-		self.object:setvelocity(get_velocity(self.v, self.object:getyaw(), self.object:getvelocity().y))
+		self.object:set_acceleration({x=0, y=-10, z=0})
+		self.object:set_velocity(get_velocity(self.v, self.object:get_yaw(), self.object:get_velocity().y))
 	else
 		p.y = p.y+1
 		if is_ground(p) then
-			self.object:setacceleration({x=0, y=3, z=0})
-			local y = self.object:getvelocity().y
+			self.object:set_acceleration({x=0, y=3, z=0})
+			local y = self.object:get_velocity().y
 			if y > 2 then
 				y = 2
 			end
 			if y < 0 then
-				self.object:setacceleration({x=0, y=10, z=0})
+				self.object:set_acceleration({x=0, y=10, z=0})
 			end
-			self.object:setvelocity(get_velocity(self.v, self.object:getyaw(), y))
+			self.object:set_velocity(get_velocity(self.v, self.object:get_yaw(), y))
 		else
-			self.object:setacceleration({x=0, y=0, z=0})
-			if math.abs(self.object:getvelocity().y) < 1 then
-				local pos = self.object:getpos()
+			self.object:set_acceleration({x=0, y=0, z=0})
+			if math.abs(self.object:get_velocity().y) < 1 then
+				local pos = self.object:get_pos()
 				pos.y = math.floor(pos.y)+0.5
-				self.object:setpos(pos)
-				self.object:setvelocity(get_velocity(self.v, self.object:getyaw(), 0))
+				self.object:set_pos(pos)
+				self.object:set_velocity(get_velocity(self.v, self.object:get_yaw(), 0))
 			else
-				self.object:setvelocity(get_velocity(self.v, self.object:getyaw(), self.object:getvelocity().y))
+				self.object:set_velocity(get_velocity(self.v, self.object:get_yaw(), self.object:get_velocity().y))
 			end
 		end
 	end
@@ -194,7 +194,7 @@ function horsepeg:on_rightclick(clicker)
 	elseif not self.driver then
 		self.driver = clicker
 		clicker:set_attach(self.object, "", {x=0,y=5,z=0}, {x=0,y=0,z=0})
-		self.object:setyaw(clicker:get_look_yaw())
+		self.object:set_yaw(clicker:get_look_horizontal())
 	end
 end
 
@@ -219,7 +219,7 @@ end
 
 
 function horsepeg:on_step(dtime)
-	self.v = get_v(self.object:getvelocity())*get_sign(self.v)
+	self.v = get_v(self.object:get_velocity())*get_sign(self.v)
 	if self.driver then
 		local ctrl = self.driver:get_player_control()
 		if ctrl.up then
@@ -229,26 +229,26 @@ function horsepeg:on_step(dtime)
 			self.v = self.v-0.1
 		end
 		if ctrl.left then
-			self.object:setyaw(self.object:getyaw()+math.pi/120+dtime*math.pi/120)
+			self.object:set_yaw(self.object:get_yaw()+math.pi/120+dtime*math.pi/120)
 		end
 		if ctrl.right then
-			self.object:setyaw(self.object:getyaw()-math.pi/120-dtime*math.pi/120)
+			self.object:set_yaw(self.object:get_yaw()-math.pi/120-dtime*math.pi/120)
 		end
 		if ctrl.jump then
-		local p = self.object:getpos()
+		local p = self.object:get_pos()
 		p.y = p.y-0.5
 		if is_ground(p) then
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 				pos.y = math.floor(pos.y)+4
-				self.object:setpos(pos)
-				self.object:setvelocity(get_velocity(self.v, self.object:getyaw(), 0))
+				self.object:set_pos(pos)
+				self.object:set_velocity(get_velocity(self.v, self.object:get_yaw(), 0))
 		end
 		end
 	end
 	local s = get_sign(self.v)
 	self.v = self.v - 0.02*s
 	if s ~= get_sign(self.v) then
-		self.object:setvelocity({x=0, y=0, z=0})
+		self.object:set_velocity({x=0, y=0, z=0})
 		self.v = 0
 		return
 	end
@@ -256,35 +256,35 @@ function horsepeg:on_step(dtime)
 		self.v = 4.5*get_sign(self.v)
 	end
 
-	local p = self.object:getpos()
+	local p = self.object:get_pos()
 	p.y = p.y-0.5
 	if not is_ground(p) then
 		if minetest.registered_nodes[minetest.get_node(p).name].walkable then
 			self.v = 0
 		end
-		self.object:setacceleration({x=0, y=-10, z=0})
-		self.object:setvelocity(get_velocity(self.v, self.object:getyaw(), self.object:getvelocity().y))
+		self.object:set_acceleration({x=0, y=-10, z=0})
+		self.object:set_velocity(get_velocity(self.v, self.object:get_yaw(), self.object:get_velocity().y))
 	else
 		p.y = p.y+1
 		if is_ground(p) then
-			self.object:setacceleration({x=0, y=3, z=0})
-			local y = self.object:getvelocity().y
+			self.object:set_acceleration({x=0, y=3, z=0})
+			local y = self.object:get_velocity().y
 			if y > 2 then
 				y = 2
 			end
 			if y < 0 then
-				self.object:setacceleration({x=0, y=10, z=0})
+				self.object:set_acceleration({x=0, y=10, z=0})
 			end
-			self.object:setvelocity(get_velocity(self.v, self.object:getyaw(), y))
+			self.object:set_velocity(get_velocity(self.v, self.object:get_yaw(), y))
 		else
-			self.object:setacceleration({x=0, y=0, z=0})
-			if math.abs(self.object:getvelocity().y) < 1 then
-				local pos = self.object:getpos()
+			self.object:set_acceleration({x=0, y=0, z=0})
+			if math.abs(self.object:get_velocity().y) < 1 then
+				local pos = self.object:get_pos()
 				pos.y = math.floor(pos.y)+0.5
-				self.object:setpos(pos)
-				self.object:setvelocity(get_velocity(self.v, self.object:getyaw(), 0))
+				self.object:set_pos(pos)
+				self.object:set_velocity(get_velocity(self.v, self.object:get_yaw(), 0))
 			else
-				self.object:setvelocity(get_velocity(self.v, self.object:getyaw(), self.object:getvelocity().y))
+				self.object:set_velocity(get_velocity(self.v, self.object:get_yaw(), self.object:get_velocity().y))
 			end
 		end
 	end
@@ -337,7 +337,7 @@ function horseara:on_rightclick(clicker)
 	elseif not self.driver then
 		self.driver = clicker
 		clicker:set_attach(self.object, "", {x=0,y=5,z=0}, {x=0,y=0,z=0})
-		self.object:setyaw(clicker:get_look_yaw())
+		self.object:set_yaw(clicker:get_look_horizontal())
 	end
 end
 
@@ -362,7 +362,7 @@ end
 
 
 function horseara:on_step(dtime)
-	self.v = get_v(self.object:getvelocity())*get_sign(self.v)
+	self.v = get_v(self.object:get_velocity())*get_sign(self.v)
 	if self.driver then
 		local ctrl = self.driver:get_player_control()
 		if ctrl.up then
@@ -372,19 +372,19 @@ function horseara:on_step(dtime)
 			self.v = self.v-0.1
 		end
 		if ctrl.left then
-			self.object:setyaw(self.object:getyaw()+math.pi/120+dtime*math.pi/120)
+			self.object:set_yaw(self.object:get_yaw()+math.pi/120+dtime*math.pi/120)
 		end
 		if ctrl.right then
-			self.object:setyaw(self.object:getyaw()-math.pi/120-dtime*math.pi/120)
+			self.object:set_yaw(self.object:get_yaw()-math.pi/120-dtime*math.pi/120)
 		end
 		if ctrl.jump then
-		local p = self.object:getpos()
+		local p = self.object:get_pos()
 		p.y = p.y-0.5
 		if is_ground(p) then
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 				pos.y = math.floor(pos.y)+4
-				self.object:setpos(pos)
-				self.object:setvelocity(get_velocity(self.v, self.object:getyaw(), 0))
+				self.object:set_pos(pos)
+				self.object:set_velocity(get_velocity(self.v, self.object:get_yaw(), 0))
 		end
 		end
 
@@ -392,7 +392,7 @@ function horseara:on_step(dtime)
 	local s = get_sign(self.v)
 	self.v = self.v - 0.02*s
 	if s ~= get_sign(self.v) then
-		self.object:setvelocity({x=0, y=0, z=0})
+		self.object:set_velocity({x=0, y=0, z=0})
 		self.v = 0
 		return
 	end
@@ -400,35 +400,35 @@ function horseara:on_step(dtime)
 		self.v = 4.5*get_sign(self.v)
 	end
 
-	local p = self.object:getpos()
+	local p = self.object:get_pos()
 	p.y = p.y-0.5
 	if not is_ground(p) then
 		if minetest.registered_nodes[minetest.get_node(p).name].walkable then
 			self.v = 0
 		end
-		self.object:setacceleration({x=0, y=-10, z=0})
-		self.object:setvelocity(get_velocity(self.v, self.object:getyaw(), self.object:getvelocity().y))
+		self.object:set_acceleration({x=0, y=-10, z=0})
+		self.object:set_velocity(get_velocity(self.v, self.object:get_yaw(), self.object:get_velocity().y))
 	else
 		p.y = p.y+1
 		if is_ground(p) then
-			self.object:setacceleration({x=0, y=3, z=0})
-			local y = self.object:getvelocity().y
+			self.object:set_acceleration({x=0, y=3, z=0})
+			local y = self.object:get_velocity().y
 			if y > 2 then
 				y = 2
 			end
 			if y < 0 then
-				self.object:setacceleration({x=0, y=10, z=0})
+				self.object:set_acceleration({x=0, y=10, z=0})
 			end
-			self.object:setvelocity(get_velocity(self.v, self.object:getyaw(), y))
+			self.object:set_velocity(get_velocity(self.v, self.object:get_yaw(), y))
 		else
-			self.object:setacceleration({x=0, y=0, z=0})
-			if math.abs(self.object:getvelocity().y) < 1 then
-				local pos = self.object:getpos()
+			self.object:set_acceleration({x=0, y=0, z=0})
+			if math.abs(self.object:get_velocity().y) < 1 then
+				local pos = self.object:get_pos()
 				pos.y = math.floor(pos.y)+0.5
-				self.object:setpos(pos)
-				self.object:setvelocity(get_velocity(self.v, self.object:getyaw(), 0))
+				self.object:set_pos(pos)
+				self.object:set_velocity(get_velocity(self.v, self.object:get_yaw(), 0))
 			else
-				self.object:setvelocity(get_velocity(self.v, self.object:getyaw(), self.object:getvelocity().y))
+				self.object:set_velocity(get_velocity(self.v, self.object:get_yaw(), self.object:get_velocity().y))
 			end
 		end
 	end
