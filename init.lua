@@ -424,6 +424,11 @@ if core.global_exists("mobs") then
 end
 
 
+local base_sound = {
+	name = "creatures_horse",
+	gain = 1.0,
+}
+
 -- FIXME:
 -- - mounted horse movement is incorrect
 local base_def = {
@@ -467,10 +472,9 @@ local base_def = {
 			--eat = {},
 		},
 	},
-	--[[
 	sounds = {
+		random = {idle=base_sound, follow=base_sound,},
 	},
-	]]
 	drops = drops,
 	--[[
 	combat = {
