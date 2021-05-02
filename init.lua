@@ -42,6 +42,7 @@ local function get_v(v)
 	return math.sqrt(v.x^2+v.z^2)
 end
 
+
 function horse:on_rightclick(clicker)
 	if not clicker or not clicker:is_player() then
 		return
@@ -178,28 +179,6 @@ local horsepeg = {
 ]]
 
 
-local function is_ground(pos)
-	local nn = minetest.get_node(pos).name
-	return minetest.get_item_group(nn, "crumbly") ~= 0
-end
-
-local function get_sign(i)
-	if i == 0 then
-		return 0
-	else
-		return i/math.abs(i)
-	end
-end
-
-local function get_velocity(v, yaw, y)
-	local x = math.cos(yaw)*v
-	local z = math.sin(yaw)*v
-	return {x=x, y=y, z=z}
-end
-
-local function get_v(v)
-	return math.sqrt(v.x^2+v.z^2)
-end
 
 --[[
 function horsepeg:on_rightclick(clicker)
@@ -322,28 +301,7 @@ end
 }
 ]]
 
-local function is_ground(pos)
-	local nn = minetest.get_node(pos).name
-	return minetest.get_item_group(nn, "crumbly") ~= 0
-end
 
-local function get_sign(i)
-	if i == 0 then
-		return 0
-	else
-		return i/math.abs(i)
-	end
-end
-
-local function get_velocity(v, yaw, y)
-	local x = math.cos(yaw)*v
-	local z = math.sin(yaw)*v
-	return {x=x, y=y, z=z}
-end
-
-local function get_v(v)
-	return math.sqrt(v.x^2+v.z^2)
-end
 
 --[[
 function horseara:on_rightclick(clicker)
