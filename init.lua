@@ -71,7 +71,7 @@ end
 function horse:on_punch(puncher, time_from_last_punch, tool_capabilities, direction)
 	self.object:remove()
 	if puncher and puncher:is_player() then
-		puncher:get_inventory():add_item("main", "creatures:horse")
+		puncher:get_inventory():add_item("main", "creatures:horse_brown_spawn_egg")
 	end
 end
 
@@ -457,7 +457,7 @@ end
 -- FIXME:
 -- - mounted horse movement is incorrect
 creatures.register_mob({
-	name = "creatures:horse",
+	name = "creatures:horse_brown",
 	stats = {
 		hp = 5,
 		hostile = false,
