@@ -437,9 +437,23 @@ if core.global_exists("mobs") then
 end
 
 
-local base_sound = {
-	name = "creatures_horse",
-	gain = 1.0,
+local sounds = {
+	neigh = {
+		name = "creatures_horse_neigh_01",
+		gain = 1.0,
+	},
+	snort1 = {
+		name = "creatures_horse_snort_01",
+		gain = 1.0,
+	},
+	snort2 = {
+		name = "creatures_horse_snort_02",
+		gain = 1.0,
+	},
+	distress = {
+		name = "creatures_horse_neigh_02",
+		gain = 1.0,
+	},
 }
 
 -- FIXME:
@@ -487,7 +501,12 @@ local base_def = {
 		},
 	},
 	sounds = {
-		random = {idle=base_sound, follow=base_sound,},
+		on_damage = sounds.distress,
+		on_death = sounds.snort2,
+		random = {
+			idle = sounds.snort1,
+			follow = sounds.neigh,
+		}
 	},
 	drops = drops,
 	--[[
