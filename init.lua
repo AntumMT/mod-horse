@@ -95,6 +95,8 @@ end
 
 
 function horse:on_step(dtime)
+	if not self.driver then return false end
+
 	self.v = get_v(self.object:get_velocity())*get_sign(self.v)
 	if self.driver then
 		local ctrl = self.driver:get_player_control()
@@ -164,6 +166,8 @@ function horse:on_step(dtime)
 			end
 		end
 	end
+
+	return true
 end
 
 --[[
@@ -498,7 +502,6 @@ local base_def = {
 		--time_range = {},
 		light = {min=8, max=20},
 		height_limit = {min=-50, max=31000},
-		-- FIXME: set owner when egg used
 		spawn_egg = {
 			--description = "Brown Horse",
 			--texture = "mobs_horse_inv.png",
@@ -506,21 +509,19 @@ local base_def = {
 		--spawner = {},
 	},
 	on_rightclick = function(self, clicker)
-		horse.on_rightclick(self, clicker)
+		return horse.on_rightclick(self, clicker)
 	end,
 	on_punch = function(self, puncher, time_from_last_punch, tool_capabilities, dir, damage)
 		return horse.on_punch(self, puncher, time_from_last_punch, tool_capabilities, dir, damage)
 	end,
-	--[[
 	on_step = function(self, dtime)
-		horse.on_step(self, dtime)
+		return horse.on_step(self, dtime)
 	end,
-	]]
 	on_activate = function(self, staticdata)
-		horse:on_activate(staticdata)
+		return horse.on_activate(self, staticdata)
 	end,
 	get_staticdata = function(self)
-		return horse:get_staticdata()
+		return horse.get_staticdata(self)
 	end,
 }
 
