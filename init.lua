@@ -75,12 +75,17 @@ function horse:on_punch(puncher, time_from_last_punch, tool_capabilities, dir, d
 	if puncher and puncher:is_player() then
 		local wielded = puncher:get_wielded_item()
 		if wielded then
-			-- FIXME:
-			-- - owner attribute must be empty
-			-- - needs to be tamed first
 			if wielded:get_name() == "mobs:lasso" then
-				self.object:remove()
-				puncher:get_inventory():add_item("main", self.name .. "_spawn_egg")
+				local pname = puncher:get_player_name()
+				local owner = self.owner
+				if owner and pname ~= owner then
+					core.chat_send_player(pname, "This horse is owned by " .. owner)
+					return true
+				else
+					self.object:remove()
+					puncher:get_inventory():add_item("main", self.name .. "_spawn_egg")
+					return true
+				end
 			end
 		end
 	end
@@ -433,6 +438,7 @@ local base_sound = {
 -- - mounted horse movement is incorrect
 local base_def = {
 	--name = "creatures:horse_brown",
+	ownable = true,
 	stats = {
 		hp = 5,
 		hostile = false,
@@ -509,13 +515,13 @@ local base_def = {
 	on_step = function(self, dtime)
 		horse.on_step(self, dtime)
 	end,
+	]]
 	on_activate = function(self, staticdata)
 		horse:on_activate(staticdata)
 	end,
 	get_staticdata = function(self)
-		return horse.get_staticdata(self)
+		return horse:get_staticdata()
 	end,
-	]]
 }
 
 --[[
