@@ -1,0 +1,4 @@
+
+TODO:
+- horses shouldn't die if owned
+- fix walking so player can control when riding
