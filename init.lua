@@ -50,10 +50,33 @@ function horse:on_rightclick(clicker)
 
 	local pname = clicker:get_player_name()
 
-	-- can't ride wild horses
 	if not self.owner then
-		core.chat_send_player(pname, "This horse is too wild to ride")
-		return
+		local wielded = clicker:get_wielded_item()
+		-- FIXME: should be done with left click/punch
+		if wielded and wielded:get_name() == "default:apple" then
+			wielded:set_count(wielded:get_count()-1)
+			clicker:set_wielded_item(wielded)
+
+			if self._appetite == nil then
+				self._appetite = 1
+			else
+				self._appetite = self._appetite + 1
+
+				if self._appetite == 10 then
+					self.owner = pname
+					self._appetite = nil
+					core.chat_send_player(pname, "You now own this horse!")
+					return
+				end
+			end
+
+			core.chat_send_player(pname, "This horse is still hungry. Keep feeding it.")
+			return
+		else
+			-- can't ride wild horses
+			core.chat_send_player(pname, "This horse is too wild to ride. Try feeding it some apples.")
+			return
+		end
 	end
 
 	-- only owner can ride
@@ -103,9 +126,14 @@ function horse:on_punch(puncher, time_from_last_punch, tool_capabilities, dir, d
 
 			-- can be tamed with any item named "lasso"
 			if wname and idx and wname:sub(idx+1) == "lasso" then
-				self.object:remove()
-				puncher:get_inventory():add_item("main", self.name .. "_spawn_egg")
-				return true
+				if not owner then
+					core.chat_send_player(pname, "This horse is too wild to tame. Try feeding it some apples.")
+					return true
+				else
+					self.object:remove()
+					puncher:get_inventory():add_item("main", self.name .. "_spawn_egg")
+					return true
+				end
 			end
 		end
 	end
