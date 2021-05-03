@@ -262,18 +262,22 @@ local base_def = {
 		lifetime = 300,
 		can_jump = 1.1,
 		--can_swim = true,
+		can_panic = true,
 		has_kockback = true,
 	},
 	modes = {
 		idle = {
 			chance = 0.3,
 		},
+		walk = {chance=0.7, moving_speed=1,},
 		--attack = {},
+		--[[
 		follow = {
 			chance = 0.7,
 			moving_speed = 1,
 			--items = likes,
 		},
+		]]
 		--eat = {},
 	},
 	model = {
@@ -288,12 +292,15 @@ local base_def = {
 				stop = 75,
 				speed = 15,
 			},
+			walk = {start=75, stop=100, speed=15,},
 			--attack = {},
+			--[[
 			follow = {
 				start = 75,
 				stop = 100,
 				speed = 15,
 			},
+			]]
 			--eat = {},
 		},
 	},
