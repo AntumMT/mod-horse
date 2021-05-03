@@ -48,6 +48,20 @@ function horse:on_rightclick(clicker)
 		return
 	end
 
+	local pname = clicker:get_player_name()
+
+	-- can't ride wild horses
+	if not self.owner then
+		core.chat_send_player(pname, "This horse is too wild to ride")
+		return
+	end
+
+	-- only owner can ride
+	if self.owner and pname ~= self.owner then
+		core.chat_send_player(pname, "This horse is owned by " .. self.owner)
+		return
+	end
+
 	if self.driver and clicker == self.driver then
 		self.driver = nil
 		clicker:set_detach()
