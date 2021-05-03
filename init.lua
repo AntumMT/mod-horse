@@ -466,6 +466,8 @@ local base_def = {
 		hostile = false,
 		lifetime = 300,
 		can_jump = 1.1,
+		can_swim = true,
+		has_kockback = true,
 	},
 	modes = {
 		idle = {
