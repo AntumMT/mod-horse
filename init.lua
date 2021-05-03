@@ -145,6 +145,11 @@ end
 function horse:on_step(dtime)
 	if not self.driver then return false end
 
+	-- FIXME: let owners control horse
+	self.object:set_velocity({x=0, y=0, z=0})
+	self.object:set_animation()
+
+	--[[
 	self.v = get_v(self.object:get_velocity())*get_sign(self.v)
 	if self.driver then
 		local ctrl = self.driver:get_player_control()
@@ -214,6 +219,7 @@ function horse:on_step(dtime)
 			end
 		end
 	end
+	]]
 
 	return true
 end
