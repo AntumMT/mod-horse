@@ -130,8 +130,13 @@ function horse:on_punch(puncher, time_from_last_punch, tool_capabilities, dir, d
 					core.chat_send_player(pname, "This horse is too wild to tame. Try feeding it some apples.")
 					return true
 				else
-					self.object:remove()
-					puncher:get_inventory():add_item("main", self.name .. "_spawn_egg")
+					local pinv = puncher:get_inventory()
+					if not pinv:room_for_item("main", self.name .. "_spawn_egg") then
+						core.chat_send_player(pname, "You don't have enought room in your inventory.")
+					else
+						self.object:remove()
+						puncher:get_inventory():add_item("main", self.name .. "_spawn_egg")
+					end
 					return true
 				end
 			end
