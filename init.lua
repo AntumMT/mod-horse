@@ -235,6 +235,7 @@ end
 local drops = {}
 if core.global_exists("mobs") then
 	table.insert(drops, {"mobs:meat_raw", {min=2, max=3}, 1.0})
+	table.insert(drops, {"mobs:leather", 1, 1.0})
 end
 
 
