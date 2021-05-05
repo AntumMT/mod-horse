@@ -393,11 +393,11 @@ for _, horse in ipairs(horses) do
 	def.spawning.spawn_egg.description = horse.description
 	def.spawning.spawn_egg.texture = horse.inventory_image
 
-	creatures.register_mob(def)
+	cmer.register_mob(def)
 end
 
 if not core.global_exists("mobs") then
-	creatures.register_alias("mob_horse:horse", "creatures:horse_brown")
+	cmer.register_alias("mob_horse:horse", "creatures:horse_brown")
 end
 
 if core.settings:get_bool("log_mods", false) then
