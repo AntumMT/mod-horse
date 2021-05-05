@@ -313,7 +313,6 @@ local base_def = {
 		max_number = 1,
 		light = {min=8, max=20},
 		height_limit = {min=-50, max=31000},
-		spawn_egg = {},
 	},
 	on_rightclick = function(self, clicker)
 		return horse.on_rightclick(self, clicker)
@@ -360,6 +359,7 @@ for _, horse in ipairs(horses) do
 	def.model.textures = horse.textures
 
 	if not core.global_exists("asm") then
+		def.spawning.spawn_egg = {}
 		def.spawning.spawn_egg.description = horse.description
 		def.spawning.spawn_egg.texture = horse.inventory_image
 	else
