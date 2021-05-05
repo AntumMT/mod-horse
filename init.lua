@@ -310,7 +310,7 @@ local base_def = {
 		},
 		abm_interval = 60,
 		abm_chance = 9000,
-		max_number = 2,
+		max_number = 1,
 		light = {min=8, max=20},
 		height_limit = {min=-50, max=31000},
 		spawn_egg = {},
