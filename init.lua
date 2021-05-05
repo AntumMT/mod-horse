@@ -266,14 +266,12 @@ local sounds = {
 -- FIXME:
 -- - mounted horse movement is incorrect
 local base_def = {
-	--name = "creatures:horse_brown",
 	ownable = true,
 	stats = {
 		hp = 16,
 		hostile = false,
 		lifetime = 300,
 		can_jump = 0, -- FIXME: should only not be able to jump over certain nodes for coralling
-		--can_swim = true,
 		can_panic = true,
 		has_kockback = true,
 	},
@@ -282,22 +280,11 @@ local base_def = {
 			chance = 0.3,
 		},
 		walk = {chance=0.7, moving_speed=1,},
-		--attack = {},
-		--[[
-		follow = {
-			chance = 0.7,
-			moving_speed = 1,
-			--items = likes,
-		},
-		]]
-		--eat = {},
 	},
 	model = {
 		mesh = "mobs_horse.x",
-		--textures = {"mobs_horse.png"},
 		collisionbox = {-0.4, -0.01, -0.4, 0.4, 1, 0.4},
 		rotation = -90.0,
-		--backface_culling = ,
 		animations = {
 			idle = {
 				start = 25,
@@ -305,15 +292,6 @@ local base_def = {
 				speed = 15,
 			},
 			walk = {start=75, stop=100, speed=15,},
-			--attack = {},
-			--[[
-			follow = {
-				start = 75,
-				stop = 100,
-				speed = 15,
-			},
-			]]
-			--eat = {},
 		},
 	},
 	sounds = {
@@ -325,10 +303,6 @@ local base_def = {
 		}
 	},
 	drops = drops,
-	--[[
-	combat = {
-	},
-	]]
 	spawning = {
 		abm_nodes = {
 			spawn_on = {"default:dirt_with_grass"},
@@ -337,15 +311,9 @@ local base_def = {
 		abm_interval = 60,
 		abm_chance = 9000,
 		max_number = 2,
-		--number = 1,
-		--time_range = {},
 		light = {min=8, max=20},
 		height_limit = {min=-50, max=31000},
-		spawn_egg = {
-			--description = "Brown Horse",
-			--texture = "mobs_horse_inv.png",
-		},
-		--spawner = {},
+		spawn_egg = {},
 	},
 	on_rightclick = function(self, clicker)
 		return horse.on_rightclick(self, clicker)
