@@ -335,19 +335,19 @@ local base_def = {
 
 local horses = {
 	{
-		name = "creatures:horse_brown",
+		name = "horse_brown",
 		description = "Brown Horse",
 		textures = {"mobs_horse.png"},
 		inventory_image = "mobs_horse_brown_inv.png",
 	},
 	{
-		name = "creatures:horse_white",
+		name = "horse_white",
 		description = "White Horse",
 		textures = {"mobs_horsepeg.png"},
 		inventory_image = "mobs_horse_white_inv.png",
 	},
 	{
-		name = "creatures:horse_black",
+		name = "horse_black",
 		description = "Black Horse",
 		textures = {"mobs_horseara.png"},
 		inventory_image = "mobs_horse_black_inv.png",
@@ -356,16 +356,29 @@ local horses = {
 
 for _, horse in ipairs(horses) do
 	local def = table.copy(base_def)
-	def.name = horse.name
+	def.name = "creatures:" .. horse.name
 	def.model.textures = horse.textures
-	def.spawning.spawn_egg.description = horse.description
-	def.spawning.spawn_egg.texture = horse.inventory_image
+
+	if not core.global_exists("asm") then
+		def.spawning.spawn_egg.description = horse.description
+		def.spawning.spawn_egg.texture = horse.inventory_image
+	else
+		asm.addEgg({
+			name=horse.name,
+			title=horse.description .. " Spawn Egg",
+			inventory_image = horse.inventory_image,
+			spawn = def.name,
+		})
+
+		core.register_alias(def.name .. "_spawn_egg", "spawneggs:" .. horse.name)
+	end
 
 	cmer.register_mob(def)
 end
 
 if not core.global_exists("mobs") then
 	cmer.register_alias("mob_horse:horse", "creatures:horse_brown")
+	cmer.register_alias("mobs:horse", "creatures:horse_brown")
 end
 
 if core.settings:get_bool("log_mods", false) then
