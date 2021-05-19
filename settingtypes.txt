@@ -5,11 +5,11 @@
 # default: 300
 horse.lifetime (Lifespan) int 300 1
 
-# Spawn rate frequency.
+# Spawn interval in seconds.
 #
 # type:    int
-# default: 60
-horse.spawn_interval (Spawn frequency) int 60 1
+# default: 600 (10 minutes)
+horse.spawn_interval (Spawn interval) int 600 1
 
 # Chance of spawn at interval.
 #

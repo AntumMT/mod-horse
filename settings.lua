@@ -11,9 +11,9 @@ cmer_horse.lifetime = core.settings:get_int("horse.lifetime") or 300
 --
 --  @setting horse.spawn_interval
 --  @settype int
---  @default 60
+--  @default 600 (10 minutes)
 --  @see [ABM definition](http://minetest.gitlab.io/minetest/definition-tables.html#abm-activeblockmodifier-definition)
-cmer_horse.spawn_interval = core.settings:get_int("horse.spawn_interval") or 60
+cmer_horse.spawn_interval = core.settings:get_int("horse.spawn_interval") or 10 * 60
 
 --- Chance of spawn at interval.
 --
