@@ -1,0 +1,18 @@
+
+# Entity lifespan.
+#
+# type:    int
+# default: 300
+horse.lifetime (Lifespan) int 300 1
+
+# Spawn rate frequency.
+#
+# type:    int
+# default: 60
+horse.spawn_interval (Spawn frequency) int 60 1
+
+# Chance of spawn at interval.
+#
+# type:    int
+# default: 9000
+horse.spawn_chance (Spawn chance) int 9000 1
