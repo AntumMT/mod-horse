@@ -276,7 +276,7 @@ local base_def = {
 		hp = 16,
 		hostile = false,
 		lifetime = cmer_horse.lifetime,
-		can_jump = 0, -- FIXME: should only not be able to jump over certain nodes for coralling
+		can_jump = 1, -- FIXME: should only not be able to jump over certain nodes for coralling
 		can_panic = true,
 		has_kockback = true,
 	},
