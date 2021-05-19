@@ -61,7 +61,7 @@ function horse:on_rightclick(clicker)
 		if wielded and wielded:get_name() == "default:apple" then
 			wielded:set_count(wielded:get_count()-1)
 			clicker:set_wielded_item(wielded)
-			core.sound_play({name="creatures_apple_bite",}, {clicker:get_pos()})
+			core.sound_play("creatures_apple_bite", {object=self.object})
 
 			if self._appetite == nil then
 				self._appetite = 1
